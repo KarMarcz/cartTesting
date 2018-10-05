@@ -1,6 +1,8 @@
 package com.infoshare.bug_busters.ui;
 
+import com.infoshare.bug_busters.pageObject.Catalogue;
 import com.infoshare.bug_busters.pageObject.HomePage;
+import com.infoshare.bug_busters.pageObject.ShoppingCart;
 import com.infoshare.bug_busters.random.RandomDataGenerator;
 import com.infoshare.bug_busters.registration.UserData;
 import com.infoshare.bug_busters.registration.UserDataGenerator;
@@ -12,6 +14,8 @@ import org.openqa.selenium.WebDriver;
 
 import java.io.IOException;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class UpdateShopingCartTest {
     private final String PAGE_URL = "http://localhost:4180/";
 
@@ -19,7 +23,11 @@ public class UpdateShopingCartTest {
 
     private HomePage homePage;
 
-    private final static UserDataGenerator userDataGenerator = new UserDataGenerator(new RandomDataGenerator());
+    private ShoppingCart shoppingCart;
+
+    private Catalogue catalogue;
+
+    private static UserDataGenerator userDataGenerator = new UserDataGenerator(new RandomDataGenerator());
 
     private static boolean isUserCreated = false;
 
@@ -33,9 +41,6 @@ public class UpdateShopingCartTest {
         }
     }
 
-    public UpdateShopingCartTest() throws IOException {
-
-    }
     private boolean isUserCreated() {
         return this.isUserCreated = true;
     }
@@ -46,13 +51,14 @@ public class UpdateShopingCartTest {
         driver.manage().window().maximize();
 
         homePage = new HomePage(driver);
+        shoppingCart = new ShoppingCart(driver);
+        catalogue = new Catalogue(driver);
 
         if(!isUserCreated){
             driver.get(PAGE_URL);
             homePage.registrationSteps(userData);
             isUserCreated();
             homePage.waitsWhenLogout();
-            //driver.close();
         }
 
 
@@ -62,11 +68,19 @@ public class UpdateShopingCartTest {
     public void addingAllpossibleproducts() {
         driver.get(PAGE_URL);
         homePage.loginSteps(userData);
+        homePage.clickItemsInCartButton();
+        shoppingCart.clickCatalogueDropDownList();
+        catalogue.changeTo_9_Products();
+        assertThat(catalogue.getTextFromHowManyProductsAreVisible()).contains("Showing 9 of 9 products").as("Unexpected text");
+        catalogue.addingAll_9_Products();
+        homePage.clickItemsInCartButton();
+        assertThat(shoppingCart.forAssertionForAll_9_ProductsAdded()).contains("Colourful", "Holy", "Figueroa", "SuperSport XL", "Crossed", "Cat socks", "YouTube.sock" , "Nerd leg", "Classic");
+
     }
-    @Test
-    public void addingAllpossibleproducts2() {
-        driver.get(PAGE_URL);
-        homePage.loginSteps(userData);
-    }
+//    @Test
+//    public void addingAllpossibleproducts2() {
+//        driver.get(PAGE_URL);
+//        homePage.loginSteps(userData);
+//    }
 
 }
