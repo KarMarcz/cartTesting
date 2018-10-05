@@ -74,8 +74,6 @@ public class Catalogue {
         waits.waitForElementToBeVisible2(itemsInCartButton, "8 item(s) in cart");
         socksClassicAddToCartButton.click();
         waits.waitForElementToBeVisible2(itemsInCartButton, "9 item(s) in cart");
-
-
     }
 
 }

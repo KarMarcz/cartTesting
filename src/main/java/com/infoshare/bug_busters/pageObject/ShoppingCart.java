@@ -1,6 +1,7 @@
 package com.infoshare.bug_busters.pageObject;
 
 import com.infoshare.bug_busters.utils.Waits;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -48,6 +49,17 @@ public class ShoppingCart {
     @FindBy(xpath = "//tbody[@id='cart-list']//tr//td[2]")
     private List<WebElement> listOfSocksinTheCartOnlyName;
 
+    @FindBy(id = "cartTotal")
+    private WebElement totalAmountToPay;
+
+    @FindBy(xpath = "//tbody[@id='cart-list']//tr//td[3]//input")
+    private List<WebElement> quantityElement;
+
+    @FindBy(xpath = "//div[@class='pull-right']//a[@class='btn btn-default']")
+    private WebElement updateBasketButton;
+
+    @FindBy(xpath = "//tbody[@id='cart-list']//tr//td[7]//a")
+    private List<WebElement> listOfTrashButton;
 
 
     private WebDriver driver;
@@ -73,5 +85,26 @@ public class ShoppingCart {
         }
 
         return allProducts;
+    }
+
+    public void changingQuantity() {
+        for(int i = 0 ; i < quantityElement.size() ; i++) {
+            quantityElement.get(i).sendKeys(Keys.chord(Keys.CONTROL, "a"));
+            quantityElement.get(i).sendKeys("2");
+        }
+        updateBasketButton.click();
+        waits.waitForElementToBeVisible2(totalAmountToPay, "$420.58");
+    }
+    public String costOfOrder() {
+        return totalAmountToPay.getText();
+    }
+
+    public void deleteAllProductsFromBasket() {
+        waits.waitForElementToBeVisible3(listOfTrashButton.get(0));
+        int listOfTrashButtonSize = listOfTrashButton.size();
+        for(int i = listOfTrashButtonSize - 1 ; i >= 0 ; i--) {
+            waits.waitForElementToBeVisible3(listOfTrashButton.get(i));
+            listOfTrashButton.get(0).click();
+        }
     }
 }

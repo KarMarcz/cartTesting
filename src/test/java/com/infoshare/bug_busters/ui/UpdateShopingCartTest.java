@@ -37,7 +37,7 @@ public class UpdateShopingCartTest {
         try {
             userData = userDataGenerator.prepareUserData();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -76,6 +76,21 @@ public class UpdateShopingCartTest {
         homePage.clickItemsInCartButton();
         assertThat(shoppingCart.forAssertionForAll_9_ProductsAdded()).contains("Colourful", "Holy", "Figueroa", "SuperSport XL", "Crossed", "Cat socks", "YouTube.sock" , "Nerd leg", "Classic");
 
+    }
+    @Test
+    public void changingquantityatonceinallproducts() {
+        driver.get(PAGE_URL);
+        addingAllpossibleproducts();
+        String costBeforeChanginfQuantity = shoppingCart.costOfOrder();
+        shoppingCart.changingQuantity();
+        assertThat(shoppingCart.costOfOrder()).isNotEqualTo(costBeforeChanginfQuantity).as("The cart is not Updated");
+    }
+    @Test
+    public void DeleteAll_9_products() {
+        driver.get(PAGE_URL);
+        addingAllpossibleproducts();
+        shoppingCart.deleteAllProductsFromBasket();
+        //tu skonczylem
     }
 //    @Test
 //    public void addingAllpossibleproducts2() {
