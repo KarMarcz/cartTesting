@@ -20,6 +20,10 @@ public class Waits {
         WebDriverWait wait = new WebDriverWait(driver, EXPLICIT_WAIT_TIMEOUT);
         WebElement waitForElement = wait.until(ExpectedConditions.visibilityOf(element));
     }
+    public void waitForElementToBeVisibleBy(By by) {
+        WebDriverWait wait = new WebDriverWait(driver, EXPLICIT_WAIT_TIMEOUT);
+        WebElement waitForElement = wait.until(ExpectedConditions.visibilityOfElementLocated(by));
+    }
     public void waitForElementToBeVisible2(WebElement element, String contains ) {
         WebDriverWait wait = new WebDriverWait(driver, EXPLICIT_WAIT_TIMEOUT);
         Boolean waitForElement = wait.until(ExpectedConditions.textToBePresentInElement(element, contains));
