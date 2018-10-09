@@ -20,33 +20,6 @@ public class ShoppingCart {
     @FindBy(xpath = "//a[@class='dropdown-toggle']")
     private WebElement catalogueDropDownList;
 
-    @FindBy(xpath = "//a[@href='#'][contains(text(),'Colourful')]")
-    private WebElement socksColourfulAddedToCart;
-
-    @FindBy(xpath = "//a[@href='#'][contains(text(),'Holy')]")
-    private WebElement socksHolyAddedToCart;
-
-    @FindBy(xpath = "//a[contains(text(),'Figueroa')]")
-    private WebElement socksFigueroafulAddedToCart;
-
-    @FindBy(xpath = "//a[@href='#'][contains(text(),'SuperSport XL')]")
-    private WebElement socksSuperSportXLAddedToCart;
-
-    @FindBy(xpath = "//a[contains(text(),'Crossed')]")
-    private WebElement socksCrossedfulAddedToCart;
-
-    @FindBy(xpath = "//a[contains(text(),'Cat socks')]")
-    private WebElement socksCatSocksAddedToCart;
-
-    @FindBy(xpath = "//a[contains(text(),'YouTube.sock')]")
-    private WebElement socksYouTubeSockAddedToCart;
-
-    @FindBy(xpath = "//a[contains(text(),'Nerd leg')]")
-    private WebElement socksNerdLegAddedToCart;
-
-    @FindBy(xpath = "//a[contains(text(),'Classic')]")
-    private WebElement socksClassicAddedToCart;
-
     @FindBy(xpath = "//tbody[@id='cart-list']//tr//td[2]")
     private List<WebElement> listOfSocksinTheCartOnlyName;
 
@@ -61,6 +34,9 @@ public class ShoppingCart {
 
     @FindBy(xpath = "//tbody[@id='cart-list']//tr//td[7]//a")
     private List<WebElement> listOfTrashButton;
+
+    @FindBy (xpath = "//a[@class='btn btn-primary navbar-btn']")
+    private WebElement itemsInCartButton;
 
 
     private WebDriver driver;
@@ -95,22 +71,36 @@ public class ShoppingCart {
             quantityElement.get(i).sendKeys("2");
         }
         updateBasketButton.click();
-        waits.waitForElementToBeVisible2(totalAmountToPay, "$420.58");
+        waits.waitForElementToContainProperString(totalAmountToPay, "$420.58");
     }
     public String costOfOrder() {
         return totalAmountToPay.getText();
     }
 
     public void deleteAllProductsFromBasket() {
-//        waits.waitForElementToBeVisible3(listOfTrashButton.get(0));
-//        int listOfTrashButtonSize = listOfTrashButton.size();
-//        for(WebElement element : listOfTrashButton) {
-//            waits.waitForElementToBeVisibleBy(By.xpath("//tbody[@id='cart-list']//tr//td[7]//a[1]"));
-//            listOfTrashButton.get(0).click();
-//        }
         listOfTrashButton.forEach((it) -> {
-            waits.waitForElementToBeVisibleBy(firstElementLocator);
+            waits.waitForElementToBeVisibleByLocator(firstElementLocator);
                 listOfTrashButton.get(0).click();}
         );
     }
-}//costam
+
+    public void resetCartBasketAfterTest() {
+        waits.waitForElementToBeClickable(itemsInCartButton);
+        itemsInCartButton.click();
+        try {
+            waits.waitForElementToBeClickable(itemsInCartButton);
+            if(listOfSocksinTheCartOnlyName.size()>0){
+                listOfTrashButton.forEach((it) -> {
+                    waits.waitForElementToBeVisibleByLocator(firstElementLocator);
+                    listOfTrashButton.get(0).click();
+                });
+            }
+        }
+        catch (Exception e) {
+            System.out.println("Cart is already empty");
+        }
+    }
+    public int numberOfItemsInCartBasket() {
+        return listOfSocksinTheCartOnlyName.size();
+    }
+}

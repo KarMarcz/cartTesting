@@ -8,6 +8,7 @@ import com.infoshare.bug_busters.registration.UserData;
 import com.infoshare.bug_busters.registration.UserDataGenerator;
 import com.infoshare.bug_busters.utils.WebDriverCreators;
 import com.infoshare.bug_busters.utils.WebDriverProvider;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
@@ -64,6 +65,12 @@ public class UpdateShopingCartTest {
 
     }
 
+    @After
+    public void tearDown() {
+        shoppingCart.resetCartBasketAfterTest();
+        driver.close();
+    }
+
     @Test
     public void addingAllpossibleproducts() {
         driver.get(PAGE_URL);
@@ -90,12 +97,7 @@ public class UpdateShopingCartTest {
         driver.get(PAGE_URL);
         addingAllpossibleproducts();
         shoppingCart.deleteAllProductsFromBasket();
-        //tu skonczylem
+        assertThat(shoppingCart.numberOfItemsInCartBasket()).isEqualTo(0).as("There are still items in basket");
     }
-//    @Test
-//    public void addingAllpossibleproducts2() {
-//        driver.get(PAGE_URL);
-//        homePage.loginSteps(userData);
-//    }
 
 }
