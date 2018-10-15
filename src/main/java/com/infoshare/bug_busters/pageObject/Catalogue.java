@@ -36,6 +36,7 @@ public class Catalogue {
     }
 
     public void changeTo_9_Products() {
+        waits.waitForElementToBeClickable(show_9_Button);
         show_9_Button.click();
         waits.waitForElementToBeVisible(textFromHowManyProductsAreVisible);
     }
@@ -50,7 +51,7 @@ public class Catalogue {
         listforAddSocksButton.forEach((it) -> {
 
             listforAddSocksButton.get(numberOfItemsInCart.get()).click();
-            waits.waitForElementToContainProperString(itemsInCartButton, String.format("%s item(s) in cart", numberOfItemsInCart.get() +1));
+            waits.waitForElementToContainProperString(itemsInCartButton, String.format("%s item(s) in cart", numberOfItemsInCart.get() + 1));
             numberOfItemsInCart.getAndIncrement();
         });
     }

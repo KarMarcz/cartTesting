@@ -115,6 +115,12 @@ public class HomePage {
         waits.waitForElementToBeVisible(logoutButton);
 
     }
+    public void registerUserWithDataGeneratorMethodWithDDT(UserData userData) throws IOException {
+
+        registrationSteps(userData);
+        waits.waitForElementToBeVisible(logoutButton);
+
+    }
 
     public void regiterUserTwiceWithTheSameData() throws IOException {
 
