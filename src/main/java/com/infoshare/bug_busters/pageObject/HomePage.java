@@ -132,6 +132,17 @@ public class HomePage {
 
     }
 
+    public void regiterUserTwiceWithTheSameDataWIthDDT(UserData userData) throws IOException {
+
+
+        registrationSteps(userData);
+        waitsWhenLogout();
+        registrationSteps(userData);
+
+    }
+
+
+
     public void loginUserAfterRegistration() throws IOException {
 
         UserData userData = userDataGenerator.prepareUserData();
