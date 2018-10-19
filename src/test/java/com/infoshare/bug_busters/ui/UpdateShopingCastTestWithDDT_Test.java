@@ -69,7 +69,7 @@ public class UpdateShopingCastTestWithDDT_Test {
     @UseDataProvider("testDataForRegistration")
     public void registrationTwiceWithTheSameData(UserData userData) throws IOException {
         driver.get(PAGE_URL);
-        homePage.regiterUserTwiceWithTheSameData();
+        homePage.regiterUserTwiceWithTheSameDataWIthDDT(userData);
         assertThat(homePage.alertRegistration().contains("There was a problem with your registration: Internal Server Error")).as("Alert is not show after creating two indentical accounts");
     }
 
@@ -77,7 +77,7 @@ public class UpdateShopingCastTestWithDDT_Test {
     @UseDataProvider("testDataForRegistration")
     public void loginAfterRegistration(UserData userData) throws IOException {
         driver.get(PAGE_URL);
-        homePage.loginUserAfterRegistration();
+        homePage.loginUserAfterRegistrationWithDDT(userData);
         assertThat(homePage.getTextFromLogoutToConfirmLoginOrRegistration().contains("Logout")).as("User is not Logged");
     }
 }

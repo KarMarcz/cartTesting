@@ -155,4 +155,16 @@ public class HomePage {
 
     }
 
+    public void loginUserAfterRegistrationWithDDT(UserData userData) throws IOException {
+
+
+
+        registrationSteps(userData);
+
+        waitsWhenLogout();
+
+        loginSteps(userData);
+
+    }
+
 }
