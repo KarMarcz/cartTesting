@@ -1,9 +1,11 @@
 package com.infoshare.bug_busters.ui;
 
 import com.infoshare.bug_busters.pageObject.HomePage;
+import com.infoshare.bug_busters.payment.PaymentDataGenerator;
 import com.infoshare.bug_busters.random.RandomDataGenerator;
 import com.infoshare.bug_busters.registration.UserData;
 import com.infoshare.bug_busters.registration.UserDataGenerator;
+import com.infoshare.bug_busters.shipping.ShippingDataGenerator;
 import com.infoshare.bug_busters.utils.WebDriverCreators;
 import com.infoshare.bug_busters.utils.WebDriverProvider;
 import com.tngtech.java.junit.dataprovider.DataProvider;
@@ -29,9 +31,21 @@ public class UpdateShopingCastTestWithDDT_Test {
     private HomePage homePage;
 
     private static UserDataGenerator userDataGenerator = new UserDataGenerator(new RandomDataGenerator());
-
+    private static ShippingDataGenerator shippingDataGenerator = new ShippingDataGenerator(new RandomDataGenerator());
+    private static PaymentDataGenerator paymentDataGenerator = new PaymentDataGenerator(new RandomDataGenerator());
     public UpdateShopingCastTestWithDDT_Test() throws IOException {
     }
+
+
+    public static Object[][] DDTObject (){
+        return new DDTGeneratoData[][] {
+                new DDTGeneratoData[][] { userDataGenerator.prepareUserData(), paymentDataGenerator.preparePayments(), shippingDataGenerator. },
+
+
+
+
+    }
+
 
 
     @DataProvider
@@ -41,6 +55,8 @@ public class UpdateShopingCastTestWithDDT_Test {
                 new UserData[] { userDataGenerator.prepareUserData() },
                 new UserData[] { userDataGenerator.prepareUserData() },
                 new UserData[] { userDataGenerator.prepareUserData() },
+
+
         };
     }
 
